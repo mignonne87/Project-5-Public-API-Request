@@ -1,9 +1,9 @@
 $.ajax({
-    url: 'https://randomuser.me/api/?results=12&nat=us', // API for generating random user data - requesting 12, only from US
+    url: 'https://randomuser.me/api/?results=12&nat=us', // API for generating 12 random user data from US
     dataType: 'json',
     success: function (data) {
         employeeList = data.results; // Storing data 
-        data.results.forEach(user => { // Looping through each employee and pulling all JSON info;
+        data.results.forEach(user => { // Loop through and pull data from each employee;
             const image = user.picture.large;
             const firstName = user.name.first;
             const lastName = user.name.last;
@@ -27,7 +27,6 @@ $.ajax({
         })
     }
 });
-
 
 
 // CREATING MODAL WINDOW FOR EACH EMPLOYEE 
@@ -66,63 +65,62 @@ function modalWindow(x) {
     </div>`;
     $('body').append(employeeModalData); // Appending HTML to the body
 
-    // LISTENING FOR MODAL WINDOW TO BE CLICKED
+    // LISTEN FOR MODAL WINDOW TO CLICK
     $('#modal-close-btn').on('click', function () {
         $('.modal-container').remove();  
      });
-    // REMOVING 'PREV' BUTTON FOR FIRST EMPLOYEE OR REMOVING 'NEXT' IF LAST EMPLOYEE
+    // REMOVE 'PREV' BUTTON FOR FIRST EMPLOYEE OR 'NEXT' IF LAST EMPLOYEE
     if (x === 0) {
         $(".modal-prev").remove();
     } else if (x === 11) {
         $(".modal-next").remove();
     }
-    // LISTENING FOR 'NEXT' BUTTON TO BE CLICKED, THEN REMOVES CURRENT MODAL AND OPENS NEXT EMPLOYEE MODAL
+    // LISTEN FOR 'NEXT' BUTTON TO CLICK, REMOVE CURRENT MODAL, OPEN NEXT EMPLOYEE MODAL
     $(".modal-next").on('click', function () {
         $('.modal-container').remove();
         x++ // 
-        modalWindow(x); // Calling function to open Modal Window of specific card
+        modalWindow(x); 
     });
-    // LISTENING FOR 'PREV' BUTTON TO BE CLICKED, THEN REMOVES CURRENT MODAL AND OPENS PREVIOUS EMPLOYEE MODAL
+    // LISTEN FOR 'PREV' BUTTON TO CLICK, REMOVE CURRENT MODAL AND OPEN PREVIOUS EMPLOYEE MODAL
     $(".modal-prev").on('click', function () {
         $('.modal-container').remove();
         x-- 
-        modalWindow(x); // Calling function to open Modal Window of specific card
+        modalWindow(x); // Calling function to open Modal Window 
     });
 }
 
 
-
-// LISTENING FOR EACH EMPLOYEE GALLERY CARD TO BE CLICKED, THEN OPENS MODAL WINDOW
+// LISTEN FOR EMPLOYEE GALLERY CARD TO BE CLICKED, 
 $('#gallery').on('click', '.card', function () {
     x = ($(this).index()); 
-    modalWindow(x); // Calling function to open Modal Window of specific card
+    modalWindow(x); // Calling function to open Modal Window 
 });
 
 
 // ADDING ELEMENT SEARCH BAR
-const searchBar = // Storing HTML (From Modal Search in index.html)
+const searchBar = 
     `<form action="#" method="get">
     <input type="search" id="search-input" class="search-input" placeholder="Search...">
     <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
 </form>`;
-$('.search-container').append(searchBar); // Appending HTML to 'search-container' div
+$('.search-container').append(searchBar); // Append HTML to 'search-container' div
 
 // ADDING LABEL THAT DISPLAYS 'NO RESULTS' MESSAGE IF SEARCH COMES BACK EMPTY
 $('.search-container').before('<label class="noresult" id="noresult"><font color="red">No Search Results</font></label>');
 $('.noresult').hide();
 
-let findResults = []; // Creating empty array for search results
+let findResults = []; // Create empty array for search results
 
 const dataInput = () => {
-    findResults = []; // Empties search results 
-    // Looping through employee list
+    findResults = []; 
+    // Loop through employee list
     for (let x = 0; x < $('#gallery .card').length; x++) {
         //Conditional statement to test Gallery Card field                                     
         if ($('#gallery .card')[x].textContent.toLowerCase().includes($('#search-input').val().toLowerCase())) {
-            $('#gallery .card')[x].style.display = "flex"; // Displays employee content if a match
+            $('#gallery .card')[x].style.display = "flex"; // Display employee content if a match
             findResults.push($('#gallery .card')[x]); 
         } else {
-            $('#gallery .card')[x].style.display = "none"; // Hides all students who do not match any input value
+            $('#gallery .card')[x].style.display = "none"; // Hide all students who do not match input value
         }
     }
     // Showing or hiding 'no results' message
